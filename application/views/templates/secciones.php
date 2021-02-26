@@ -9,7 +9,7 @@
                 </a>
 
                 <div class="sb-sidenav-menu-heading">Menús</div>
-                <a class="nav-link" href="charts.html">
+                <a class="nav-link" href="<?php echo base_url('libro')?>">
                     <div class="sb-nav-link-icon"><i class="fas fa-book"></i></div>
                     Libros
                 </a>

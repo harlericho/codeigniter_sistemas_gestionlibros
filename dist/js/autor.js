@@ -12,7 +12,7 @@ $(document).ready(function () {
 $("#btnGuardar").click(function (e) {
     if (validaciones() == true) {
         let data = $("#autor").serialize();
-        console.log(data);
+        //console.log(data);
         guardar(data);
     }
     e.preventDefault();
