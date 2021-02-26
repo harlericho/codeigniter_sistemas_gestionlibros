@@ -12,6 +12,11 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+
+-- Dumping database structure for codeigniter_sistemas_gestionlibros
+CREATE DATABASE IF NOT EXISTS `codeigniter_sistemas_gestionlibros` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
+USE `codeigniter_sistemas_gestionlibros`;
+
 -- Dumping structure for table codeigniter_sistemas_gestionlibros.autor
 CREATE TABLE IF NOT EXISTS `autor` (
   `id_autor` int(11) NOT NULL AUTO_INCREMENT,
