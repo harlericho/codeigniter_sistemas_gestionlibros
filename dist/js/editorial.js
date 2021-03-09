@@ -17,7 +17,7 @@ $("#btnGuardar").click(function (e) {
             //console.log(id);
         } else {
             //console.log(id);
-             actualizar(data);
+            actualizar(data);
         }
 
     }
@@ -86,7 +86,14 @@ function validaciones() {
         alertify.warning('Ingrese una dirección');
         $("#dir").focus();
     } else {
-        return true;
+        if (cantidadInput(telefono) == true) {
+            return true;
+        } else {
+            alertify.set('notifier', 'position', 'top-right');
+            alertify.warning('Número telefonico debe tener entre 9 o 10 digitos');
+            $("#telefono").focus();
+        }
+
     }
 }
 
@@ -106,13 +113,13 @@ function listadoEditorial() {
                 html += "<td>" + data[key]['telefono'] + "</td>";
                 html += "<td>" + data[key]['direccion'] + "</td>";
                 html += `<td>
-               <a href="#" id="del" value="${data[key]['id_editorial']}" class="btn btn-sm btn-danger" title="Eliminar">
-               <i class="fas fa-trash-restore"></i>
-               </a>
-               <a href="#" id="edit" value="${data[key]['id_editorial']}" class="btn btn-sm btn-success" title="Editar">
-               <i class="fas fa-pencil-alt"></i>
-               </a>
-               </td>`;
+                <a href="#" id="del" value="${data[key]['id_editorial']}" class="btn btn-sm btn-danger" title="Eliminar">
+                <i class="fas fa-trash-restore"></i>
+                </a>
+                <a href="#" id="edit" value="${data[key]['id_editorial']}" class="btn btn-sm btn-success" title="Editar">
+                <i class="fas fa-pencil-alt"></i>
+                </a>
+                </td>`;
             }
             html += "</tr></tbody></table>"
             $("#tablaeditorial").html(html);
@@ -196,3 +203,16 @@ $(function () {
         $('#nombre').focus();
     })
 });
+
+function cantidadInput(data) {
+    let length = data.length;
+    let c = 0;
+    for (var i = 0; i < length; i++) {
+        c = c + 1;
+    }
+    if (c > 9 && c <= 10) {
+        return true;
+    }else{
+        return false;
+    }
+}

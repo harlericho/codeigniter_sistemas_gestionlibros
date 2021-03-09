@@ -76,7 +76,7 @@
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="dir">Año</label>
-                                            <input type="text" class="form-control" id="ann" name="ann" required>
+                                            <input type="number" class="form-control" id="ann" name="ann" required>
                                         </div>
                                     </div>
                                     <!-- ------------------------------ -->

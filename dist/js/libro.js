@@ -133,7 +133,14 @@ function validaciones() {
         alertify.warning('Ingrese un precio venta');
         $("#precio").focus();
     } else {
-        return true;
+        if (cantidadInput(ann)==true) {
+            return true;
+        } else {
+            alertify.set('notifier', 'position', 'top-right');
+            alertify.warning('Año debe tener minimo 4 digitos');
+            $("#ann").focus();
+        }
+
     }
 }
 
@@ -155,4 +162,18 @@ function decimalNumber() {
         this.value = this.value.replace(/[^0-9,.]/g, '').replace(/,/g, '.');
     });
 
+}
+
+
+function cantidadInput(data) {
+    let length = data.length;
+    let c = 0;
+    for (var i = 0; i < length; i++) {
+        c = c + 1;
+    }
+    if (c > 3 && c <= 4) {
+        return true;
+    } else {
+        return false;
+    }
 }
