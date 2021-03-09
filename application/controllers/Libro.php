@@ -13,9 +13,13 @@ class Libro extends CI_Controller
     {
         $this->load->view('principal/libro');
     }
-    public function listadoPais()
+    public function listado()
     {
-        echo json_encode($this->Libro_model->get_entries_pais());
+        echo json_encode($this->Libro_model->get_entries());
+    }
+    public function listadoAutor()
+    {
+        echo json_encode($this->Libro_model->get_entries_autor());
     }
     public function listadoEditorial()
     {
@@ -27,24 +31,33 @@ class Libro extends CI_Controller
     }
     public function insertar()
     {
+        $config = [
+            'upload_path' => './dist/images/uploads',
+            'allowed_types' => 'png|jpg|jpeg'
+        ];
+        $this->load->library('upload', $config);
+        if ($this->upload->do_upload('file')) {
+            $datos = array('upload_data' => $this->upload->data());
+            $data = $this->input->post();
+            //$file = $this->input->post('file', ['tmp_name']);
+            $isbn = "ISBN-" . date("Y-m-d H:i:s");
+            //$urlimagen = fopen($file, 'w');
+    
+            $arrayName = array(
+                'id_editorial' => $data['editorial'],
+                'id_autor' => $data['autor'],
+                'id_genero' => $data['genero'],
+                'isbn' => $isbn,
+                'titulo' => $data['titulo'],
+                'descripcion' => $data['des'],
+                'edicion' => $data['edi'],
+                'ann' => $data['ann'],
+                'portada' => $datos['upload_data']['file_name'],
+                'precio_v' => $data['precio'],
+            );
+            echo $this->Libro_model->insert_entry($arrayName);
+        }
 
-        //$data = $this->input->post();
-        //$file = $this->input->post('file', ['tmp_name']);
-        //$isbn = "ISBN-" . date("Y-m-d H:i:s");
-        //$urlimagen = fopen($file, 'w');
-        /*
-        $arrayName = array(
-            'id_editorial' => $data['editorial'],
-            'id_pais' => $data['pais'],
-            'id_genero' => $data['genero'],
-            'isbn' => $isbn,
-            'titulo' => $data['titulo'],
-            'descripcion' => $data['des'],
-            'editorial' => $data['edi'],
-            'ann' => $data['ann'],
-            'precio_v' => $data['precio'],
-        );
-        echo $this->Libro_model->insert_entry($arrayName);
-        */
+
     }
 }

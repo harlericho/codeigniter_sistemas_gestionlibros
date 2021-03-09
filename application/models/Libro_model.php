@@ -12,10 +12,10 @@ class Libro_model extends CI_Model
             return $r->result();
         }
     }
-    public function get_entries_pais()
+    public function get_entries_autor()
     {
         //procedimiento almacenado de listado
-        $r = $this->db->query("call procedure_listado_pais");
+        $r = $this->db->query("call procedure_listado_autor_libro");
         if (count($r->result()) > 0) {
             return $r->result();
         }

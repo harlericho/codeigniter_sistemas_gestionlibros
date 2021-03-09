@@ -1,7 +1,8 @@
 $(document).ready(function () {
     selectorEditorial();
-    selectorPais();
+    selectorAutor();
     selectorGenero();
+    listadoLibros();
     $('#exampleModal').modal({
         backdrop: 'static',
         keyboard: false,
@@ -10,19 +11,19 @@ $(document).ready(function () {
     });
 });
 
-function selectorPais() {
+function selectorAutor() {
     $.ajax({
         type: "POST",
-        url: "libro/listadoPais",
+        url: "libro/listadoAutor",
         dataType: "json",
         success: function (data) {
-            html = "<select class='form-control' aria-label='Default select example' id='pais' name='pais' required>";
+            html = "<select class='form-control' aria-label='Default select example' id='autor' name='autor' required>";
             html += "<option selected disabled >--Seleccione--</option>";
             for (var key in data) {
-                html += `<option value="${data[key]['id_pais']}"> ${data[key]['nombre']}</option>`;
+                html += `<option value="${data[key]['id_autor']}"> ${data[key]['nombres']}</option>`;
             }
             html += "</select>";
-            $("#selectpais").html(html);
+            $("#selectautor").html(html);
         }
     });
 }
@@ -61,6 +62,48 @@ function selectorGenero() {
 }
 
 
+function listadoLibros() {
+    $.ajax({
+        type: "POST",
+        url: "libro/listado",
+        dataType: "json",
+        success: function (data) {
+            html = "<table class='table table-striped table-bordered' id='tablafiltro' style='width:100%' ><thead>";
+            html += "<tr><th scope='col'>Editrial</th><th scope='col'>Autor</th><th scope='col'>Genero</th><th scope='col'>ISBN</th><th scope='col'>Titulo</th><th scope='col'>Ediccion</th><th scope='col'>Año</th><th scope='col'>Portada</th><th scope='col'>Precio</th><th scope='col'>Acciones</th></tr></thead>";
+            html += "<tbody>";
+            //var tbody = "<tbody>";
+            for (var key in data) {
+                html += "<tr>";
+                html += "<td>" + data[key]['edito'] + "</td>";
+                html += "<td>" + data[key]['auto'] + "</td>";
+                html += "<td>" + data[key]['genen'] + "</td>";
+                html += "<td>" + data[key]['isbn'] + "</td>";
+                html += "<td>" + data[key]['titulo'] + "</td>";
+                html += "<td>" + data[key]['edicion'] + "</td>";
+                html += "<td>" + data[key]['ann'] + "</td>";
+                html += "<td><img src=dist/images/uploads/"+ data[key]['portada'] + " width=60 height=60></td>";
+                html += "<td>" + data[key]['precio_v'] + "</td>";
+                html += `<td>
+                <a href="#" id="del" value="${data[key]['id_libro']}" class="btn btn-sm btn-danger" title="Eliminar">
+                <i class="fas fa-trash-restore"></i>
+                </a>
+                <a href="#" id="edit" value="${data[key]['id_libro']}" class="btn btn-sm btn-success" title="Editar">
+                <i class="fas fa-pencil-alt"></i>
+                </a>
+                </td>`;
+            }
+            html += "</tr></tbody></table>"
+            $("#tablalibro").html(html);
+            //tabla filtro
+            $('#tablafiltro').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                }
+            });
+        }
+    });
+}
+
 $("#btnGuardar").click(function (e) {
     if (validaciones() == true) {
         let data = new FormData($("#libro")[0]);
@@ -87,7 +130,7 @@ function guardar(data) {
 }
 
 function validaciones() {
-    let pais = $("#pais").val();
+    let autor = $("#autor").val();
     let edit = $("#editorial").val();
     let gen = $("#genero").val();
     let titulo = $("#titulo").val();
@@ -100,10 +143,10 @@ function validaciones() {
         alertify.set('notifier', 'position', 'top-right');
         alertify.warning('Elegir una editorial');
         $("#editorial").focus();
-    } else if ($.trim(pais) == "") {
+    } else if ($.trim(autor) == "") {
         alertify.set('notifier', 'position', 'top-right');
-        alertify.warning('Elegir un pais ');
-        $("#pais").focus();
+        alertify.warning('Elegir un autor ');
+        $("#autor").focus();
     } else if ($.trim(gen) == "") {
         alertify.set('notifier', 'position', 'top-right');
         alertify.warning('Elegir un genero');

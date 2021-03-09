@@ -23,7 +23,7 @@
                             Registro de libros
                         </div>
                         <div class="card-body">
-                            <div class="table-responsive" id="tablaeditorial">
+                            <div class="table-responsive" id="tablalibro">
                             </div>
                         </div>
                     </div>
@@ -49,8 +49,8 @@
                                             <div id="selecteditorial"></div>
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <label for="pais">Pais</label>
-                                            <div id="selectpais"></div>
+                                            <label for="pais">Autor</label>
+                                            <div id="selectautor"></div>
                                         </div>
                                     </div>
                                     <div class="form-row">
