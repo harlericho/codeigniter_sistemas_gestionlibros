@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `libro` (
   `descripcion` varchar(500) DEFAULT NULL,
   `edicion` varchar(50) NOT NULL,
   `ann` varchar(10) NOT NULL,
-  `portada` longblob DEFAULT NULL,
+  `portada` varchar(50) DEFAULT NULL,
   `precio_v` decimal(10,2) NOT NULL,
   `fecha_c` datetime NOT NULL DEFAULT current_timestamp(),
   `estado` char(1) NOT NULL DEFAULT 'A',
