@@ -46,9 +46,9 @@ class Libro_model extends CI_Model
         return $this->db->update('libro', $data, array('id_libro' => $data['id_libro']));
     }
 
-    public function single_entry($nombre)
+    public function single_entry_titulo_editorial($nombre, $editorial)
     {
-        $sql = "SELECT * FROM libro WHERE nombre = '" . $nombre . "'";
+        $sql = "SELECT * FROM libro WHERE titulo = '" . $nombre . "' and id_editorial= '.$editorial.' and estado='A'";
         $query = $this->db->query($sql);
         if ($query->num_rows() == 1) {
             return true;

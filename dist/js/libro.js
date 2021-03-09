@@ -81,7 +81,7 @@ function listadoLibros() {
                 html += "<td>" + data[key]['titulo'] + "</td>";
                 html += "<td>" + data[key]['edicion'] + "</td>";
                 html += "<td>" + data[key]['ann'] + "</td>";
-                html += "<td><img src=dist/images/uploads/"+ data[key]['portada'] + " width=60 height=60></td>";
+                html += "<td><img src=dist/images/uploads/" + data[key]['portada'] + " width=60 height=60></td>";
                 html += "<td>" + data[key]['precio_v'] + "</td>";
                 html += `<td>
                 <a href="#" id="del" value="${data[key]['id_libro']}" class="btn btn-sm btn-danger" title="Eliminar">
@@ -122,12 +122,53 @@ function guardar(data) {
         contentType: false,
         processData: false,
         success: function (response) {
-            if (response) {
-                console.log(response);
+            if (response == 0) {
+                alertify.set('notifier', 'position', 'top-right');
+                alertify.warning('Titulo de libro ya esta relacionado con esa editorial');
+                $("#titulo").focus();
+                //console.log(response);
+            } else {
+                alertify.set('notifier', 'position', 'top-right');
+                alertify.success('Libro guardado con exito');
+                $("#libro")[0].reset();
+                $("#exampleModal").modal("hide");
+                listadoLibros();
             }
         }
     });
 }
+
+$(document).on("click", "#del", function (e) {
+    let idEliminar = $(this).attr("value");
+    Swal.fire({
+        title: 'Seguro desea eliminar?',
+        text: "Solo se cambiara el estado del registro",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, eliminar!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                type: "POST",
+                url: "libro/eliminar",
+                data: { idEliminar: idEliminar },
+                success: function (response) {
+                    if (response) {
+                        listadoLibros();
+                    }
+                }
+            });
+            Swal.fire(
+                'Eliminado!',
+                'Su registro cambio de estado',
+                'success'
+            )
+        }
+    })
+    e.preventDefault();
+});
 
 function validaciones() {
     let autor = $("#autor").val();
@@ -176,11 +217,11 @@ function validaciones() {
         alertify.warning('Ingrese un precio venta');
         $("#precio").focus();
     } else {
-        if (cantidadInput(ann)==true) {
+        if (cantidadInput(ann) == true) {
             return true;
         } else {
             alertify.set('notifier', 'position', 'top-right');
-            alertify.warning('Año debe tener minimo 4 digitos');
+            alertify.error('Año debe tener minimo 4 digitos');
             $("#ann").focus();
         }
 
