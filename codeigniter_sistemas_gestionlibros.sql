@@ -107,7 +107,7 @@ CREATE TABLE IF NOT EXISTS `pais` (
 
 -- Dumping structure for procedure codeigniter_sistemas_gestionlibros.procedure_listado_autor
 DELIMITER //
-CREATE DEFINER=`charlie`@`localhost` PROCEDURE `procedure_listado_autor`()
+CREATE PROCEDURE `procedure_listado_autor`()
 BEGIN
 SELECT a.id_autor,a.nombres AS autor, a.id_pais, p.nombre AS pais FROM autor a
 JOIN pais p ON a.id_pais=p.id_pais
@@ -117,7 +117,7 @@ DELIMITER ;
 
 -- Dumping structure for procedure codeigniter_sistemas_gestionlibros.procedure_listado_autor_libro
 DELIMITER //
-CREATE DEFINER=`charlie`@`localhost` PROCEDURE `procedure_listado_autor_libro`()
+CREATE PROCEDURE `procedure_listado_autor_libro`()
 BEGIN
 SELECT * FROM autor WHERE estado ='A';
 END//
@@ -133,7 +133,7 @@ DELIMITER ;
 
 -- Dumping structure for procedure codeigniter_sistemas_gestionlibros.procedure_listado_genero
 DELIMITER //
-CREATE DEFINER=`charlie`@`localhost` PROCEDURE `procedure_listado_genero`()
+CREATE  PROCEDURE `procedure_listado_genero`()
 BEGIN
 SELECT * FROM genero WHERE estado ='A';
 END//
@@ -141,7 +141,7 @@ DELIMITER ;
 
 -- Dumping structure for procedure codeigniter_sistemas_gestionlibros.procedure_listado_libro
 DELIMITER //
-CREATE DEFINER=`charlie`@`localhost` PROCEDURE `procedure_listado_libro`()
+CREATE PROCEDURE `procedure_listado_libro`()
 BEGIN
 SELECT 
 l.id_libro,l.isbn,l.titulo,l.edicion,l.ann,l.portada,l.precio_v,
@@ -156,7 +156,7 @@ DELIMITER ;
 
 -- Dumping structure for procedure codeigniter_sistemas_gestionlibros.procedure_listado_pais
 DELIMITER //
-CREATE DEFINER=`charlie`@`localhost` PROCEDURE `procedure_listado_pais`()
+CREATE  PROCEDURE `procedure_listado_pais`()
 BEGIN
 SELECT * FROM pais WHERE estado ='A';
 END//
