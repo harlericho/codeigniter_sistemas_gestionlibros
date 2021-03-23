@@ -71,4 +71,12 @@ class Libro_model extends CI_Model
     {
         return $this->db->update('libro', $data, array('id_libro' => $id));
     }
+    public function uploadImage($id)
+    {
+        $this->db->select("portada");
+        $this->db->from("libro");
+        $this->db->where("id_libro", $id);
+        $query = $this->db->get();
+        return $query->row();
+    }
 }

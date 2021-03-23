@@ -47,15 +47,13 @@ class Libro extends CI_Controller
             if ($this->Libro_model->single_entry_titulo_editorial($this->input->post('titulo'), $this->input->post('editorial')) == true) {
                 echo 0;
             } else {
-                //echo 1;
                 $this->load->library('upload', $config);
+                $data = $this->input->post();
+                //$file = $this->input->post('file', ['tmp_name']);
+                $isbn = "ISBN-" . date("Y-m-d H:i:s");
+                //$urlimagen = fopen($file, 'w');
                 if ($this->upload->do_upload('file')) {
                     $datos = array('upload_data' => $this->upload->data());
-                    $data = $this->input->post();
-                    //$file = $this->input->post('file', ['tmp_name']);
-                    $isbn = "ISBN-" . date("Y-m-d H:i:s");
-                    //$urlimagen = fopen($file, 'w');
-
                     $arrayName = array(
                         'id_editorial' => $data['editorial'],
                         'id_autor' => $data['autor'],
@@ -69,11 +67,73 @@ class Libro extends CI_Controller
                         'precio_v' => $data['precio'],
                     );
                     echo $this->Libro_model->insert_entry($arrayName);
+                } else {
+                    $arrayName = array(
+                        'id_editorial' => $data['editorial'],
+                        'id_autor' => $data['autor'],
+                        'id_genero' => $data['genero'],
+                        'isbn' => $isbn,
+                        'titulo' => strtoupper($data['titulo']),
+                        'descripcion' => strtoupper($data['des']),
+                        'edicion' => strtoupper($data['edi']),
+                        'ann' => $data['ann'],
+                        //'portada' => $datos['upload_data']['file_name'],
+                        'precio_v' => $data['precio'],
+                    );
+                    echo $this->Libro_model->insert_entry($arrayName);
                 }
             }
         }
     }
 
+    public function actualizar()
+    {
+        if ($this->input->is_ajax_request()) {
+            $config = [
+                'upload_path' => './dist/images/uploads',
+                'allowed_types' => 'png|jpg|jpeg'
+            ];
+            //if ($this->Libro_model->single_entry_titulo_editorial($this->input->post('titulo'), $this->input->post('editorial')) == true) {
+            //    echo 0;
+            //} else {
+            $this->load->library('upload', $config);
+            if ($this->upload->do_upload('file')) {
+                $data = $this->input->post();
+                $link = $this->Libro_model->uploadImage($this->input->post('id'));
+                unlink("./dist/images/uploads/" . $link->portada);
+                $datos = array('upload_data' => $this->upload->data());
+                $arrayName = array(
+                    "id_libro" => $data['id'],
+                    'id_editorial' => $data['editorial'],
+                    'id_autor' => $data['autor'],
+                    'id_genero' => $data['genero'],
+                    'titulo' => strtoupper($data['titulo']),
+                    'descripcion' => strtoupper($data['des']),
+                    'edicion' => strtoupper($data['edi']),
+                    'ann' => $data['ann'],
+                    'portada' => $datos['upload_data']['file_name'],
+                    'precio_v' => $data['precio'],
+                );
+                echo $this->Libro_model->update_entry($arrayName);
+            } else {
+                $data = $this->input->post();
+                $arrayName = array(
+                    "id_libro" => $data['id'],
+                    'id_editorial' => $data['editorial'],
+                    'id_autor' => $data['autor'],
+                    'id_genero' => $data['genero'],
+                    'titulo' => strtoupper($data['titulo']),
+                    'descripcion' => strtoupper($data['des']),
+                    'edicion' => strtoupper($data['edi']),
+                    'ann' => $data['ann'],
+                    // 'portada' => $datos['upload_data']['file_name'],
+                    'precio_v' => $data['precio'],
+                );
+                echo $this->Libro_model->update_entry($arrayName);
+            }
+            //}
+        }
+    }
 
     public function eliminar()
     {
@@ -82,6 +142,19 @@ class Libro extends CI_Controller
             $arrayName = array('estado' => 'I',);
             $this->Libro_model->update_status($arrayName, $id);
             echo 1;
+        }
+    }
+
+    public function obtenerID()
+    {
+        if ($this->input->is_ajax_request()) {
+            $data = $this->input->post('idEditar');
+            $post = $this->Libro_model->single_entry_id($data);
+            $arrayName = array(
+                'res' => 'suc',
+                'post' => $post
+            );
+            echo json_encode($arrayName);
         }
     }
 }

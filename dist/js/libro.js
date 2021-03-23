@@ -106,9 +106,13 @@ function listadoLibros() {
 
 $("#btnGuardar").click(function (e) {
     if (validaciones() == true) {
+        let id = $("#id").val();
         let data = new FormData($("#libro")[0]);
-        console.log(data);
-        guardar(data);
+        if ($.trim(id) == "") {
+            guardar(data);
+        } else {
+            actualizar(data);
+        }
     }
     e.preventDefault();
 });
@@ -126,10 +130,29 @@ function guardar(data) {
                 alertify.set('notifier', 'position', 'top-right');
                 alertify.warning('Titulo de libro ya esta relacionado con esa editorial');
                 $("#titulo").focus();
-                //console.log(response);
             } else {
                 alertify.set('notifier', 'position', 'top-right');
                 alertify.success('Libro guardado con exito');
+                $("#libro")[0].reset();
+                $("#exampleModal").modal("hide");
+                listadoLibros();
+
+            }
+        }
+    });
+}
+function actualizar(data) {
+    $.ajax({
+        type: "POST",
+        url: "libro/actualizar",
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (response) {
+            if (response) {
+                alertify.set('notifier', 'position', 'top-right');
+                alertify.success('Libro modificado con exito');
                 $("#libro")[0].reset();
                 $("#exampleModal").modal("hide");
                 listadoLibros();
@@ -137,6 +160,33 @@ function guardar(data) {
         }
     });
 }
+
+$(document).on("click", "#edit", function (e) {
+    let idEditar = $(this).attr("value");
+    $.ajax({
+        type: "POST",
+        url: "libro/obtenerID",
+        dataType: "json",
+        data: { idEditar: idEditar },
+        success: function (data) {
+            if (data.res == "suc") {
+                $("#exampleModal").modal("show");
+                $("#id").val(data.post.id_libro);
+                $("#editorial").val(data.post.id_editorial);
+                $("#autor").val(data.post.id_autor);
+                $("#genero").val(data.post.id_genero);
+                $("#titulo").val(data.post.titulo);
+                $("#des").val(data.post.descripcion);
+                $("#edi").val(data.post.edicion);
+                $("#ann").val(data.post.ann);
+                $("#precio").val(data.post.precio_v);
+            }
+
+        }
+    });
+
+    e.preventDefault();
+});
 
 $(document).on("click", "#del", function (e) {
     let idEliminar = $(this).attr("value");
@@ -178,7 +228,7 @@ function validaciones() {
     let des = $("#des").val();
     let edic = $("#edi").val();
     let ann = $("#ann").val();
-    let file = $("#file").val();
+    //let file = $("#file").val();
     let precio = $("#precio").val();
     if ($.trim(edit) == "") {
         alertify.set('notifier', 'position', 'top-right');
@@ -208,11 +258,12 @@ function validaciones() {
         alertify.set('notifier', 'position', 'top-right');
         alertify.warning('Ingrese un año');
         $("#ann").focus();
-    } else if ($.trim(file) == "") {
+    }
+    /* else if ($.trim(file) == "") {
         alertify.set('notifier', 'position', 'top-right');
         alertify.warning('Ingrese una imagen');
         $("#file").focus();
-    } else if ($.trim(precio) == "") {
+    } */else if ($.trim(precio) == "") {
         alertify.set('notifier', 'position', 'top-right');
         alertify.warning('Ingrese un precio venta');
         $("#precio").focus();
@@ -230,7 +281,19 @@ function validaciones() {
 
 
 
-
+function limpiar() {
+    $('#editorial').get(0).selectedIndex = 0;
+    $('#autor').get(0).selectedIndex = 0;
+    $('#genero').get(0).selectedIndex = 0;
+    document.getElementById("id").value = '';
+    document.getElementById("titulo").value = '';
+    document.getElementById("des").value = '';
+    document.getElementById("edi").value = '';
+    document.getElementById("ann").value = '';
+    document.getElementById("file").value = '';
+    document.getElementById("precio").value = '';
+    //$("#modaladd")[0].reset();
+}
 
 
 $(function () {
