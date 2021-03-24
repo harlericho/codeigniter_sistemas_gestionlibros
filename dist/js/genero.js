@@ -108,7 +108,7 @@ $(document).on("click", "#del", function (e) {
                 data: { idEliminar: idEliminar },
                 success: function (response) {
                     if (response) {
-                        listadoPais();
+                        listadoGenero();
                     }
                 }
             });
