@@ -19,10 +19,10 @@
             <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">Nombres</a>
-                <a class="dropdown-item" href="#">Email</a>
+                <a class="dropdown-item"><?php echo $this->session->userdata('nombres') ?></a>
+                <a class="dropdown-item"><?php echo $this->session->userdata('email') ?></a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Salir</a>
+                <a class="dropdown-item" href="<?php echo base_url('login/out') ?>">Salir</a>
             </div>
         </li>
     </ul>

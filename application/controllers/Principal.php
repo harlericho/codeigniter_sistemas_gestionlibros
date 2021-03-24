@@ -6,6 +6,9 @@ class Principal extends CI_Controller
 
 	public function index()
 	{
+		if (!$this->session->userdata('logged_in')) {
+			redirect('login');
+		}
 		$this->load->view('principal/main');
 	}
 	public function __construct()
