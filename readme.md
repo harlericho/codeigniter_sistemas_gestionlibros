@@ -27,16 +27,16 @@
 # codeigniter_sistemas_gestionlibros
 
 + Inicio
-![](preview1.png "GESTION LIBROS")
+![](preview1.PNG "GESTION LIBROS")
 
 + Principal
-![](preview2.png "GESTION LIBROS")
+![](preview2.PNG "GESTION LIBROS")
 
 + Crud
-![](preview3.png "GESTION LIBROS")
+![](preview3.PNG "GESTION LIBROS")
 
 + Secciones
-![](preview4.png "GESTION LIBROS")
+![](preview4.PNG "GESTION LIBROS")
 
 
 ![](https://avatars.githubusercontent.com/u/42042270?s=48&v=4)
